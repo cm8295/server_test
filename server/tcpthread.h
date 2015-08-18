@@ -16,6 +16,7 @@
 #include <QDomDocument>  
 #include <QDateTime>
 #include <QMutex>
+#include <QMutexLocker>
 
 enum DATA_FORMAT
 {
@@ -93,6 +94,8 @@ private:
 	//upload
 	QFileInfo qfilecheck;
 	QString tempPathstory;
+	QString _username;/*用户名*/
+	QString _currentFilename ;/*文件名*/
 
 	//database
 	QSqlDatabase data_base;

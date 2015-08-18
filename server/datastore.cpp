@@ -19,26 +19,62 @@ QSqlDatabase datastore::getdatabase()
 
 bool datastore::dataBaseConnect()
 {
-	//m_mutex.lock();
+	//if (QSqlDatabase::contains("teeair"))
+	//{
+	//	//data_base = QSqlDatabase::database("teeair");
+	//}
+	//else
+	//{
+	//	data_base = QSqlDatabase::addDatabase("QMYSQL");
+	//	data_base.setHostName("localhost");
+	//	data_base.setPort(3306);
+	//	data_base.setDatabaseName("teeair");
+	//	data_base.setUserName("root");
+	//	data_base.setPassword("123456");
+	//	//data_base.setConnectOptions("CLIENT_SSL=1;CLIENT_IGNORE_SPACE=1");//使用SSL  
+	//	if(!data_base.open())
+	//	{
+	//		return false;
+	//	}
+	//	else
+	//	{
+	//		return true;
+	//	}
+	//}
 	data_base = QSqlDatabase::addDatabase("QMYSQL");
 	data_base.setHostName("localhost");
 	data_base.setPort(3306);
-	//data_base.setDatabaseName("CasitMedicalFileStore_Server");
 	data_base.setDatabaseName("teeair");
 	data_base.setUserName("root");
 	data_base.setPassword("123456");
-	data_base.setConnectOptions("CLIENT_SSL=1;CLIENT_IGNORE_SPACE=1");//使用SSL  
+	//data_base.setConnectOptions("CLIENT_SSL=1;CLIENT_IGNORE_SPACE=1");//使用SSL  
 	if(!data_base.open())
 	{
-		//qDebug()<<"failed to conect to mysql";
-		//m_mutex.unlock();
 		return false;
 	}
 	else
 	{
-		//qDebug()<<"数据库连接成功!";
-		//m_mutex.unlock();
 		return true;
+	}
+}
+
+QSqlDatabase datastore::sqlConnect()
+{
+	QSqlDatabase _database;
+	_database = QSqlDatabase::addDatabase("QMYSQL");
+	_database.setHostName("localhost");
+	_database.setPort(3306);
+	_database.setDatabaseName("teeair");
+	_database.setUserName("root");
+	_database.setPassword("123456");
+	//data_base.setConnectOptions("CLIENT_SSL=1;CLIENT_IGNORE_SPACE=1");//使用SSL  
+	if(!_database.open())
+	{
+		return _database;
+	}
+	else
+	{
+		return _database;
 	}
 }
 
@@ -46,7 +82,7 @@ void datastore::dataBaseClose()
 {
 	if (data_base.isOpen())
 	{
-		//data_base.close();
+		data_base.close();
 	}
 }
 
@@ -198,29 +234,27 @@ struct PATIENTDATA datastore::searchPatientData(QString _patientName)
 
 bool datastore::searchUserAndPwd(QString _username, QString _password)
 {
-	//m_mutex.lock();
-	/*if (dataBaseConnect())
-	{
-	qDebug()<<"数据库连接失败";
-	}*/
+	bool blexit = false;
+	//QSqlDatabase _database = sqlConnect();
 	QSqlQuery query(data_base);
 	QString sql = "select count(*) from users where name = '" + _username + "' and pwd = '" + _password + "'";
 	if (!query.exec(sql))
 	{
-		qDebug()<<"sql exec error";
-		//data_base.close();
-		//m_mutex.unlock();
-		return false;
+		qDebug()<<"sql exec error"<<data_base.lastError();
 	}
 	query.next();
 	if (query.value(0) == 0)
 	{
-		//data_base.close();
-		//m_mutex.unlock();
+		qDebug()<<"not exit a file name "<<_username;
+	}
+	else
+	{
+		blexit = true;
+	}
+	if (!blexit)
+	{
 		return false;
 	}
-	//data_base.close();
-	//m_mutex.unlock();
 	return true;
 }
 

@@ -1,0 +1,34 @@
+﻿生成启动时间为 2015/8/18 13:12:42。
+     1>项目“F:\chenm\CasitMed\server\server\server.vcxproj”在节点 2 上(build 个目标)。
+     1>InitializeBuildStatus:
+         正在创建“Release\server.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       CustomBuild:
+         所有输出均为最新。
+       ClCompile:
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I. /Id:\Qt\4.8.6\include /I.\GeneratedFiles\Release /Id:\Qt\4.8.6\include\QtCore /Id:\Qt\4.8.6\include\QtXml /Id:\Qt\4.8.6\include\QtSql /Id:\Qt\4.8.6\include\QtNetwork /nologo /W1 /WX- /O2 /Oy- /D UNICODE /D WIN32 /D QT_DLL /D QT_NO_DEBUG /D NDEBUG /D QT_CORE_LIB /D QT_XML_LIB /D QT_SQL_LIB /D QT_NETWORK_LIB /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t- /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt datastore.cpp
+         datastore.cpp
+       Link:
+         D:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\chenm\CasitMed\server\Win32\Release\\server.exe" /NOLOGO /LIBPATH:d:\Qt\4.8.6\lib qtmain.lib QtCore4.lib QtXml4.lib QtSql4.lib QtNetwork4.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\server.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /PDB:"F:\chenm\CasitMed\server\Win32\Release\server.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\chenm\CasitMed\server\Win32\Release\server.lib" /MACHINE:X86 Release\connectsocket.obj
+         Release\datachange.obj
+         Release\datastore.obj
+         Release\errorInfoStore.obj
+         Release\moc_connectsocket.obj
+         Release\moc_datachange.obj
+         Release\moc_tcpserver.obj
+         Release\moc_tcpthread.obj
+         Release\moc_txtthread.obj
+         Release\main.obj
+         Release\tcpserver.obj
+         Release\tcpthread.obj
+         Release\txtthread.obj
+         server.vcxproj -> F:\chenm\CasitMed\server\Win32\Release\server.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"F:\chenm\CasitMed\server\Win32\Release\\server.exe;#1" /manifest Release\server.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         正在删除文件“Release\server.unsuccessfulbuild”。
+         正在对“Release\server.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“F:\chenm\CasitMed\server\server\server.vcxproj”(build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:00.72

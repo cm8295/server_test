@@ -16,6 +16,7 @@ void TcpThread::run()
 	*/
 	//_CrtDumpMemoryLeaks();
 	//
+	
 	TotalBytes = 0;  
 	bytesReceived = 0;  
 	fileNameSize = 0;  
@@ -35,6 +36,7 @@ void TcpThread::run()
 	connect(tcpServerConnection, SIGNAL(readyRead()), this, SLOT(receiveData()),Qt::DirectConnection);
 	connect(tcpServerConnection, SIGNAL(error(QAbstractSocket::SocketError)), this,SLOT(displayError(QAbstractSocket::SocketError)), Qt::DirectConnection); 
 	connect(tcpServerConnection, SIGNAL(connectionClosed()), this, SLOT(connectError()), Qt::DirectConnection);
+
 	exec();
 }
 
@@ -153,34 +155,26 @@ void TcpThread::receiveData()    //接收文件
 					currenttime = QDateTime::currentDateTime().toString("yyyyMMdd");
 					bytesReceived += fileNameSize;  
 					QDir qdircheck;
-					tempPathstory = fileName.left(fileName.lastIndexOf('/'));
-					tempPathstory = tempPathstory.right(tempPathstory.size() - tempPathstory.indexOf('>') - 1);
-					tempPathstory = tempPathstory.left(tempPathstory.indexOf('<'));
-					tempPathstory = tempPathstory.replace('/','\\');
-					qfilecheck.setFile(upload_AND_download_Path + currenttime + "\\" + tempPathstory);   //TEEData\Huaxi   FileLoadTest
-					if(!fileName.contains("/"))
-					{
-						m_filePath = upload_AND_download_Path + currenttime + "\\";
-					}
-					else
-					{
-						m_filePath = upload_AND_download_Path + currenttime + "\\" + tempPathstory + "\\";
-					}
+					_username = sFileName.left(sFileName.indexOf('\\'));/*用户名*/
+					_currentFilename = sFileName.right(sFileName.size() - sFileName.lastIndexOf('\\') - 1);
+					m_filePath = upload_AND_download_Path + _username + "\\" + currenttime + 
+						sFileName.remove(sFileName.left(sFileName.indexOf('\\')));
+					m_filePath = m_filePath.left(m_filePath.lastIndexOf('\\')) + "\\";
 					if(!qdircheck.exists(m_filePath))
-					{
-						bool okorfalse1 = qdircheck.mkpath(m_filePath);
+					{   //文件不存在
+						qdircheck.mkpath(m_filePath);
 					}
-					localFile = new QFile(m_filePath + sFileName);  //文件存储的路径
+					else if (qdircheck.exists(m_filePath))
+					{   //文件存在
+
+					}
+					localFile = new QFile(m_filePath + _currentFilename);  //文件存储的路径
 					if(!localFile->open(QFile::WriteOnly))  
 					{  
 						blFileOpen = false;
 						localFile->deleteLater();
-						//msleep(100);
-						//terminate();
 						emit disconnectedSignal(socketDescriptor);
 						quit();
-						//wait();
-						//return;  
 					}  
 					blFileOpen = true;
 				}
@@ -298,7 +292,8 @@ void TcpThread::receiveData()    //接收文件
 					/*    数据库匹配用户信息    */
 					int _userInfoCheck = 0;    
 					//数据库查询
-					_qmutex.lock();
+					QMutexLocker _qmutexlocker(&_qmutex);
+					//_qmutex.lock();
 					if (_datastore.searchUserAndPwd(_userName, _userPassword))
 					{
 						_userInfoCheck = 1;
@@ -307,7 +302,7 @@ void TcpThread::receiveData()    //接收文件
 					{
 						_userInfoCheck = 0;
 					}
-					_qmutex.unlock();
+					//_qmutex.unlock();
 					/*******************************************/
 					if (_userInfoCheck == 1)
 					{
@@ -348,7 +343,7 @@ void TcpThread::receiveData()    //接收文件
 				_qmutex.lock();
 				_datastore.insertDataToSql(tempPathstory.left(tempPathstory.replace('/','\\').indexOf('\\')), m_serverPath, m_filePath + sFileName, TotalBytes, FileDigest(m_filePath + sFileName), "NULL");
 				_qmutex.unlock();
-				qDebug()<<tempPathstory;
+				qDebug()<<sFileName;
 				TotalBytes = 0;
 				bytesReceived = 0;
 				fileNameSize = 0;
